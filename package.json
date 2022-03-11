@@ -2,6 +2,7 @@
   "name": "flag-game-nft",
   "version": "0.0.1",
   "scripts": {
+    "start": "cd server && npm start",
     "dev": "svelte-kit dev",
     "build": "svelte-kit build",
     "package": "svelte-kit package",
