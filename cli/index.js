@@ -1,5 +1,5 @@
 import {config} from 'dotenv';
-import {flags} from "./flags.js";
+import {flags} from "../shared/flags.js";
 import {generateFlagMap} from "./flagsSetup.js";
 import {createAccount, createFlagNft, lockAccount} from "./stellarSetup.js";
 import {Keypair} from "stellar-sdk";
