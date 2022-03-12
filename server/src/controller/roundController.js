@@ -85,7 +85,7 @@ export function setupRoutes(app) {
                 const tx = await roundService.getPayWinnerTransaction(round, player);
                 res.send({player, prizeXdr: tx.toXDR()})
             } else {
-                res.send(player);
+                res.send({player});
             }
 
         } catch (e) {
