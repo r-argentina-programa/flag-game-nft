@@ -9,11 +9,7 @@
 	</head>
 	<body>
 		<div>%svelte.body%</div>
-		<script src="/socket.io/socket.io.js"></script>
-		<script>
-      		var socket = io();
-
-			socket.on("message", (data) => console.log(data));
-		</script>
+		<div id="app"></div>
+		<script type="module" src="/src/main.ts"></script>
 	</body>
 </html>
