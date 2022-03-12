@@ -14,7 +14,6 @@
     "bignumber.js": "^9.0.2",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
-    "get-pixels": "^3.3.3",
     "socket.io": "^4.4.1",
     "stellar-sdk": "^10.0.1"
   },

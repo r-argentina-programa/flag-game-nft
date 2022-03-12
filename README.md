@@ -1,40 +1,27 @@
-# create-svelte
+# Stellar NFT Flags Game
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+Stake your XLM, guess the flag before other players and earn XLM and a Flag NFT!
 
-## Creating a project
+## Game mechanic
 
-If you're seeing this, you've probably already done this step. Congrats!
+TBD
 
+## Installation
+
+Start by creating the relevant accounts and flag maps using the `cli`.
+Run these commands from the root folder: 
 ```bash
-# create a new project in the current directory
-npm init svelte@next
-
-# create a new project in my-app
-npm init svelte@next my-app
+ cd cli
+ npm install
+ npm run start
 ```
+This creates the flag maps in `/shared/data/`.
 
-> Note: the `@next` is temporary
+Then ensure you can run the server, while on the root folder, run `cd server && npm install` to install the server dependencies.
+Run `cp .env.dist .env` and populate the right values on `.env`. If you follow these instructions, the server will run on `http://localhost:5000` when you execute `npm run start` (or `npm run dev` in development mode).
 
-## Developing
+While on the root folder, run `cd ui && npm install` in the root folder to install the UI application.
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
 
-```bash
-npm run dev
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+Finally, on the root folder run `npm run dev` to start the UI application and `npm run start` to start the server application.
