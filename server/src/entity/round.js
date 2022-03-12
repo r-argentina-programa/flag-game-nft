@@ -1,14 +1,20 @@
 import {flags} from '../../../shared/flags.js';
+import {BigNumber as B} from "bignumber.js/bignumber.mjs";
 
 export default class Round {
-    constructor() {
-        this.isOpen = false;
-        this.isPlaying = false;
-        this.flag = null;
-        this.players = [];
-        this.pixels = [];
-        this.losers = [];
-        this.winner = null;
+    flagSizeInPixels;
+    entryCostInXlm;
+    isOpen = false;
+    isPlaying = false;
+    flag = null;
+    players = [];
+    pixels = [];
+    losers = [];
+    winner = null;
+
+    constructor(flagSizeInPixels, entryCostInXlm) {
+        this.flagSizeInPixels = flagSizeInPixels;
+        this.entryCostInXlm = entryCostInXlm;
     }
 
     reset() {
@@ -29,6 +35,11 @@ export default class Round {
         this.isPlaying = false;
     }
 
+    start() {
+        this.isPlaying = true;
+        this.isOpen = false;
+    }
+
     close() {
         this.reset();
         this.flag = null;
@@ -41,16 +52,35 @@ export default class Round {
         this.players.push(player);
     }
 
-    processPlayerAnswer(player, flag) {
-        if (flag === this.flag) {
-            return this.declareWinner(player);
+    evaluatePlayerAnswer(player, flag) {
+
+        if (this.losers.find(p => p.publicKey === player.publicKey)) {
+            throw new Error(`Player ${player.publicKey} already lost`);
         }
+
+        if (flag === this.flag) {
+            this.declareWinner(player);
+            return true;
+        }
+
+        player.lose();
         this.losers.push(player);
+        return false;
     }
 
     declareWinner(player) {
+        this.isPlaying = false;
+        this.isOpen = false;
         this.winner = player;
-        // pay out XLM
-        // send io messageS
+        const playerIndex = this.players.findIndex(p => p.publicKey === this.winner.publicKey);
+        this.losers = this.players;
+        delete this.losers[playerIndex];
+        player.win();
+    }
+
+    getPrize() {
+        const playerQty = this.players.length;
+
+        return new B(playerQty).multipliedBy(new B(this.entryCostInXlm));
     }
 }

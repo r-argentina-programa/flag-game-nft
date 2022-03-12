@@ -1,22 +1,31 @@
 export default class Player {
+    static STATUSES = {
+        JOINED: 'joined',
+        PLAYING: 'playing',
+        WON: 'won',
+        LOST: 'lost'
+    };
+
+    publicKey;
+    status = 'not_joined';
+
     constructor(publicKey) {
         this.publicKey = publicKey;
-        this.status = 'not_joined';
     }
-    
+
     join() {
-        this.status = 'joined';
+        this.status = Player.STATUSES.JOINED;
     }
 
     play() {
-        this.status = 'playing';
+        this.status = Player.STATUSES.PLAYING;
     }
 
     win() {
-        this.status = 'won';
+        this.status = Player.STATUSES.WON;
     }
 
     lose() {
-        this.status = 'lost';
+        this.status = Player.STATUSES.LOST;
     }
 }
