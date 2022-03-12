@@ -12,8 +12,6 @@ const io = new Server(server, {
 });
 const { SECONDS_PER_MESSAGE } = require('./constants.js');
 
-console.log('CAN LOAD THIS?', process.env.STELLAR_NETWORK);
-
 const PORT = process.env.PORT || 5000;
 
 io.on('connection', () => {
