@@ -5,6 +5,37 @@
 		<meta name="description" content="" />
 		<link rel="icon" href="%svelte.assets%/favicon.png" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway" />
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+		/>
+		<style>
+			.flag-container {
+				display: grid;
+				width: calc(120px * 4);
+				height: calc(80px * 4);
+				border: 1px solid red;
+				grid-template-columns: repeat(120, 1fr);
+				grid-template-rows: repeat(80, 1fr);
+				gap: 0;
+			}
+
+			.grid-item {
+				background-color: pink;
+			}
+
+			html,
+			body,
+			h1,
+			h2,
+			h3,
+			h4,
+			h5 {
+				font-family: 'Raleway', sans-serif;
+			}
+		</style>
 		%svelte.head%
 	</head>
 	<body>
