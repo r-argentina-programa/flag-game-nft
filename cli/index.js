@@ -1,7 +1,7 @@
 import {config} from 'dotenv';
 import {flags} from "./flags.js";
 import {generateFlagMap} from "./flagsSetup.js";
-import {createFlagNft, createGameMasterAccount} from "./stellarSetup.js";
+import {createAccount, createFlagNft, lockAccount} from "./stellarSetup.js";
 import {Keypair} from "stellar-sdk";
 
 config();
@@ -15,12 +15,15 @@ async function init() {
         process.env.FUNDER_SECRET_KEY
     );
 
-    const gameMasterKeyPair = await createGameMasterAccount(funderKeyPair);
-
+    const gameMasterKeyPair = await createAccount(funderKeyPair);
     console.log(funderKeyPair.publicKey(), 'funded game master', gameMasterKeyPair.publicKey(), gameMasterKeyPair.secret());
+    const nftIssuerKeyPair = await createAccount(funderKeyPair);
+    console.log(funderKeyPair.publicKey(), 'funded nft issuer', nftIssuerKeyPair.publicKey());
     for (const flag of flags) {
-        await createFlagNft(gameMasterKeyPair, flag);
+        await createFlagNft(gameMasterKeyPair, nftIssuerKeyPair, flag);
     }
+    console.log('all flags created');
+    await lockAccount(nftIssuerKeyPair);
 }
 
 init().then(_ => console.log('setup script finished'));

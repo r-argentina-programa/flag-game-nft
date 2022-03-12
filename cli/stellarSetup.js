@@ -1,46 +1,61 @@
 import {Asset, BASE_FEE, Keypair, Operation, Server, TransactionBuilder} from "stellar-sdk";
 
-export async function createGameMasterAccount(funderKeyPair) {
+export async function createAccount(funderKeyPair) {
     const server = new Server(process.env.STELLAR_NETWORK);
     const funderPublicKey = funderKeyPair.publicKey();
     const funderAccount = await server.loadAccount(funderPublicKey);
-    const gameMasterKeyPair = Keypair.random();
+    const newKeyPair = Keypair.random();
     const transaction = await new TransactionBuilder(funderAccount, {
         networkPassphrase: process.env.STELLAR_NETWORK_PASSPHRASE,
         fee: BASE_FEE
     }).addOperation(Operation.createAccount({
         source: funderPublicKey,
-        destination: gameMasterKeyPair.publicKey(),
-        startingBalance: "100"
+        destination: newKeyPair.publicKey(),
+        startingBalance: "10"
     })).setTimeout(300).build();
 
     transaction.sign(funderKeyPair);
     await server.submitTransaction(transaction);
-    return gameMasterKeyPair;
+    return newKeyPair;
 }
 
-export async function createFlagNft(gameMasterKeyPair, flag) {
+export async function lockAccount(keyPair) {
+    const server = new Server(process.env.STELLAR_NETWORK);
+    const publicKey = keyPair.publicKey();
+    const account = await server.loadAccount(publicKey);
+
+    console.log('locking', publicKey, '...');
+
+    const transaction = new TransactionBuilder(account, {
+        networkPassphrase: process.env.STELLAR_NETWORK_PASSPHRASE,
+        fee: BASE_FEE
+    })
+        .addOperation(Operation.setOptions({
+            source: publicKey,
+            masterWeight: 0
+        }))
+        .setTimeout(300)
+        .build();
+
+    transaction.sign(keyPair);
+    await server.submitTransaction(transaction);
+    console.log('locked', publicKey);
+}
+
+export async function createFlagNft(gameMasterKeyPair, nftIssuerKeyPair, flag) {
     try {
         const server = new Server(process.env.STELLAR_NETWORK);
         const gameMasterPublicKey = gameMasterKeyPair.publicKey();
         const gameMasterAccount = await server.loadAccount(gameMasterPublicKey);
-        const nftIssuerKeyPair = Keypair.random();
         const nftIssuerPublicKey = nftIssuerKeyPair.publicKey();
         const nftAsset = new Asset(flag, nftIssuerPublicKey);
 
-        console.log(gameMasterAccount.account_id, 'will fund', nftIssuerKeyPair.publicKey(), 'for', flag);
+        console.log('creating nft', flag, 'by', nftIssuerPublicKey);
 
         const transaction = new TransactionBuilder(gameMasterAccount, {
             networkPassphrase: process.env.STELLAR_NETWORK_PASSPHRASE,
             fee: BASE_FEE
         })
-            .addOperation(
-                Operation.createAccount({
-                    source: gameMasterPublicKey,
-                    destination: nftIssuerKeyPair.publicKey(),
-                    startingBalance: '1'
-                })
-            )
             .addOperation(
                 Operation.changeTrust({
                     source: gameMasterPublicKey,
@@ -53,10 +68,6 @@ export async function createFlagNft(gameMasterKeyPair, flag) {
                 asset: nftAsset,
                 destination: gameMasterPublicKey,
                 amount: "0.0000001"
-            }))
-            .addOperation(Operation.setOptions({
-                source: nftIssuerPublicKey,
-                masterWeight: 0
             }))
             .setTimeout(300)
             .build();
