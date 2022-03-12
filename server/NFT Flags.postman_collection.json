@@ -1,0 +1,176 @@
+{
+	"info": {
+		"_postman_id": "73933c59-8400-4a23-b25c-7d1278c711ad",
+		"name": "NFT Flags",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Round",
+			"item": [
+				{
+					"name": "GET round",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/round",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"round"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Open round",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/round",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"round"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Start round",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/round",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"round"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Close round",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/round",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"round"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Player",
+			"item": [
+				{
+					"name": "GET player in round",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/round/player/GDPMAZ77BXRWMCAOXYCSV7SWJSY5KHEKQP5OL6CZFW5E5OBKOOJYCW7W",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"round",
+								"player",
+								"GDPMAZ77BXRWMCAOXYCSV7SWJSY5KHEKQP5OL6CZFW5E5OBKOOJYCW7W"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "JOIN player",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"joinXdr\": \"AAAAAgAAAADewGf/DeNmCA6+BSr+Vkyx1RyKg/rl+Fktuk64KnOTgQAAAGQAFfRBAAAAAwAAAAEAAAAAAAAAAAAAAABiLRTJAAAAAAAAAAEAAAABAAAAAN7AZ/8N42YIDr4FKv5WTLHVHIqD+uX4WS26Trgqc5OBAAAAAQAAAAAL7iWpsTwfZC8a96vOQrlMw4oG/Yxgvw3OZXCxhXsEKgAAAAAAAAAAO5rKAAAAAAAAAAABKnOTgQAAAEC8FA2vHJoYORPDjrUYl6+NI0HPFSFMamgvCwmygKOAJXaA8gHeSP+Nwv9PW4fH0w98aKcFtn+DnwX2UBLPpv0D\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/round/player/GDPMAZ77BXRWMCAOXYCSV7SWJSY5KHEKQP5OL6CZFW5E5OBKOOJYCW7W",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"round",
+								"player",
+								"GDPMAZ77BXRWMCAOXYCSV7SWJSY5KHEKQP5OL6CZFW5E5OBKOOJYCW7W"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Submit answer",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"flag\": \"gmb\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/round/player/GDPMAZ77BXRWMCAOXYCSV7SWJSY5KHEKQP5OL6CZFW5E5OBKOOJYCW7W",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"round",
+								"player",
+								"GDPMAZ77BXRWMCAOXYCSV7SWJSY5KHEKQP5OL6CZFW5E5OBKOOJYCW7W"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
