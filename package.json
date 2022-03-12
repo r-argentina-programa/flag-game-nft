@@ -23,6 +23,8 @@
   },
   "type": "module",
   "dependencies": {
-    "socket.io-client": "^4.4.1"
+    "get-pixels": "^3.3.3",
+    "socket.io-client": "^4.4.1",
+    "stellar-sdk": "^10.0.1"
   }
 }
