@@ -12,6 +12,7 @@ if(privateKey){
 export const player = writable(tmpPlayer);
 export const isConnected = writable(!!privateKey);
 export const publicKey = writable(privateKey ? player.publicKey : '');
+export const keyPair = writable(privateKey ? Keypair.fromSecret(privateKey) : null);
 
 // round
 export const round = writable(new Round());

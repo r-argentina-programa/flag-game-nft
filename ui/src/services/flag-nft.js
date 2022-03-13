@@ -1,3 +1,5 @@
+import Player from "../entities/player.js";
+
 const BASE_URL = import.meta.env.VITE_SERVER_URL;
 
 export async function getRound() {
@@ -12,11 +14,40 @@ export async function getPlayer(player) {
     if (response.joinOfferXdr) {
         return player;
     } else {
-        return response;
+        return new Player(response);
     }
 }
 
 export async function getWinners() {
     const result = await fetch(`${BASE_URL}/player/winners`);
     return result.json();
+}
+
+export async function getJoinOffer(player) {
+    const result = await fetch(`${BASE_URL}/round/player/${player.publicKey}`);
+    const response = await result.json();
+
+    if (response.joinOfferXdr) {
+        return response.joinOfferXdr;
+    } else {
+        throw new Error('Player already joined');
+    }
+}
+
+export async function joinRound(player, signedXdr) {
+    console.log(signedXdr);
+    const result = await fetch(`${BASE_URL}/round/player/${player.publicKey}`, {
+        method: 'PUT',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            joinXdr: signedXdr
+        })
+    });
+
+    const playerData = await result.json();
+    console.log(playerData);
+    return new Player(playerData);
 }

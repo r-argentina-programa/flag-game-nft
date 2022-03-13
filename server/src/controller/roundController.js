@@ -5,24 +5,16 @@ import {RoundService} from "../service/roundService.js";
 const roundService = new RoundService();
 const round = new Round(120 * 80, 100);
 
-function getSanitizedRound() {
-    const roundClone = {...round};
-    delete roundClone.flag;
-    delete roundClone.losers;
-    delete roundClone.players;
-    return roundClone;
-}
-
 export function setupRoutes(app) {
     app.get('/round', (req, res) => {
         console.log('The flag for this round is ', round.flag);
-        res.send({round: getSanitizedRound()});
+        res.send({round: roundService.getSanitizedRound(round)});
     });
 
     app.post('/round', async (req, res) => {
         try {
             await roundService.open(round);
-            res.send({round: getSanitizedRound()});
+            res.send({round: roundService.getSanitizedRound(round)});
         } catch (e) {
             console.error(e);
             res.send({error: e.message})
@@ -32,7 +24,7 @@ export function setupRoutes(app) {
     app.put('/round', (req, res) => {
         try {
             roundService.start(round);
-            res.send({round: getSanitizedRound()});
+            res.send({round: roundService.getSanitizedRound(round)});
         } catch (e) {
             console.error(e);
             res.send({error: e.message})
@@ -42,7 +34,7 @@ export function setupRoutes(app) {
     app.delete('/round', (req, res) => {
         try {
             roundService.close(round);
-            res.send({round: getSanitizedRound()});
+            res.send({round: roundService.getSanitizedRound(round)});
         } catch (e) {
             console.error(e);
             res.send({error: e.message})
@@ -69,6 +61,7 @@ export function setupRoutes(app) {
         try {
             const {playerId} = req.params;
             const {joinXdr} = req.body;
+            console.log(joinXdr);
             const player = await roundService.handleJoinRequest(round, playerId, joinXdr);
             res.send(player);
         } catch (e) {

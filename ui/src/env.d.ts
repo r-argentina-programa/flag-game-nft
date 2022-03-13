@@ -2,6 +2,7 @@
 
 interface ImportMetaEnv {
 	readonly VITE_SERVER_URL: string;
+	readonly VITE_STELLAR_NETWORK_PASSPHRASE: string;
 }
 
 interface ImportMeta {

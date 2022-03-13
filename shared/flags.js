@@ -1,1 +1,1 @@
-export const flags = ['arg', 'bol', 'bra', 'gmb'];
+export const flags = ['ARG', 'AUS', 'AUT', 'BEL'];

@@ -11,6 +11,10 @@ async function init() {
         await generateFlagMap(flag);
     }
 
+    if (process.env.SKIP_STELLAR_SETUP === 'true') {
+        return;
+    }
+
     const funderKeyPair = Keypair.fromSecret(
         process.env.FUNDER_SECRET_KEY
     );

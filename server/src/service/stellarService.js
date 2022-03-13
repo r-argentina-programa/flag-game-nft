@@ -20,6 +20,7 @@ export class StellarService {
 
     async submitJoinTransaction(xdr) {
         const server = new Server(process.env.STELLAR_NETWORK);
+        console.log(xdr);
         const tx = TransactionBuilder.fromXDR(xdr, process.env.STELLAR_NETWORK_PASSPHRASE);
         return server.submitTransaction(tx);
     }

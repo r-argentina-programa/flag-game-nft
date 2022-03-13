@@ -16,7 +16,7 @@ function rgbToHex(r, g, b) {
 
 function getFlagMap(flag) {
     return new Promise((resolve) => {
-        const path = `../shared/flags/270x180/${flag}.png`;
+        const path = `../shared/flags/120x80/${flag}.png`;
         getPixels(path, function (err, pixels) {
             const map = [];
             for (let y = 0; y < pixels.shape[1]; y++) {
@@ -26,8 +26,10 @@ function getFlagMap(flag) {
                     const b = pixels.get(x, y, 2);
                     const hex = rgbToHex(r, g, b);
 
-                    map[y] = map[y] || [];
-                    map[y][x] = {color: hex, isVisible: false};
+                    if(hex === undefined){
+                        throw new Error('undefined color');
+                    }
+                    map.push({color: hex, x, y});
                 }
             }
             resolve(map);

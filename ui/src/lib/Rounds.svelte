@@ -1,32 +1,45 @@
 <script>
     import {onMount} from "svelte";
-    import {player, round} from '../stores/main';
+    import {keyPair, player, round} from '../stores/main';
     import PlayGame from './PlayGame.svelte';
     import Winners from './Winners.svelte';
-    import {getPlayer, getRound} from "../services/flag-nft.js";
+    import {getJoinOffer, getPlayer, getRound, joinRound} from "../services/flag-nft.js";
+    import {signJoinXdr} from "../services/stellar.js";
 
     onMount(async function () {
         const roundResponse = await getRound();
         const playerResponse = await getPlayer($player);
-        round.update(() => roundResponse.round);
-        player.update(() => playerResponse);
+        round.set(roundResponse.round);
+        player.set(playerResponse);
     });
+
+    const handleJoin = async () => {
+        const joinOfferXdr = await getJoinOffer($player);
+        const signedJoinOfferXdr = signJoinXdr(joinOfferXdr, $keyPair);
+        const updatedPlayer = await joinRound($player, signedJoinOfferXdr);
+        console.log(updatedPlayer)
+        player.set(updatedPlayer);
+    }
 </script>
 
 <header class="flags-nft-game w3-container" style="padding-top:22px">
     <div class="flags-nft-game w3-center">
-        <h2>Welcome {$player.publicKey}</h2>
+        <h2>Welcome <a href="https://stellar.expert/explorer/testnet/account/{$player.publicKey}"
+                       target="_blank">{$player.shortPublicKey}</a></h2>
         {#if !$round.isOpen && !$round.isPlaying}
             <h1><strong>The round isn't open yet, come back soon!</strong></h1>
             <Winners/>
         {:else if $round.isOpen}
-            {#if $player.status = 'joined'}
+            {#if $player.status === 'joined'}
+                <h1><strong>The next round is now open!</strong></h1>
+                <h2>You have already joined. Wait for the round to start.</h2>
+                <Winners/>
             {:else}
                 <h1><strong>The next round is now open!</strong></h1>
                 <div class="flags-nft-game container">
                     <div class="flags-nft-game popup background">
                         <div class="message">Entry cost: 100 XLM</div>
-                        <button class="flags-nft-game join-btn">Join</button>
+                        <button class="flags-nft-game join-btn" on:click="{handleJoin}">Join</button>
                     </div>
                 </div>
                 <Winners/>

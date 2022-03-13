@@ -2,10 +2,13 @@
     import {io} from 'socket.io-client';
     import Rounds from './lib/Rounds.svelte';
     import Connect from './lib/Connect.svelte';
-    import {isConnected} from './stores/main.js';
+    import {round, isConnected} from './stores/main.js';
 
     const socket = io(import.meta.env.VITE_SERVER_URL);
-    socket.on('message', (data) => console.log(data));
+    socket.on('ROUND_UPDATE', (updatedRound) => {
+        console.log('round update', updatedRound);
+        round.set(updatedRound);
+    });
 </script>
 
 {#if $isConnected}
