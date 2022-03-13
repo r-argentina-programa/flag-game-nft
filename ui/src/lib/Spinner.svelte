@@ -28,6 +28,7 @@
 	.spinner {
 		display: flex;
 		justify-content: center;
+		z-index: 9999;
 	}
 
 	.modal-wrapper {

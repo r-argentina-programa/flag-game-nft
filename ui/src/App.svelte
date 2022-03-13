@@ -6,8 +6,9 @@
 
     socket.on('ROUND_UPDATE', (updatedRound) => {
         console.log('round update', updatedRound);
-        if (updatedRound.winner !== null) {
-            window.reload();
+        if (updatedRound.winner !== null || updatedRound.isClosed === true) {
+            location.reload();
+            return;
         }
         round.set(updatedRound);
     });
