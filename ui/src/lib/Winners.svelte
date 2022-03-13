@@ -38,9 +38,8 @@
 	<div class="flags-nft-how-to w3-row-padding">
 		<h3>How does it work?</h3>
 		<span
-			>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Esse quaerat mollitia numquam
-			voluptatem quibusdam earum obcaecati necessitatibus, aliquam optio deleniti quod quisquam quis
-			architecto laboriosam, asperiores eaque laborum fugiat veritatis?</span
+			>Stake 100 XLM and try to guess the flag faster than your opponents! The fastest one keeps the
+			guessed flag NFT and takes everyone else's XLM</span
 		>
 	</div>
 </div>
