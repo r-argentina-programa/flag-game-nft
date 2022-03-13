@@ -95,7 +95,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5000/round/player/GDPMAZ77BXRWMCAOXYCSV7SWJSY5KHEKQP5OL6CZFW5E5OBKOOJYCW7W",
+							"raw": "http://localhost:5000/round/player/GB4E7S276RCHAMTVOTQHDRPSRHBM2KNLWIA3DWZJPBEA2XG7F6V4GBH4",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -104,7 +104,7 @@
 							"path": [
 								"round",
 								"player",
-								"GDPMAZ77BXRWMCAOXYCSV7SWJSY5KHEKQP5OL6CZFW5E5OBKOOJYCW7W"
+								"GB4E7S276RCHAMTVOTQHDRPSRHBM2KNLWIA3DWZJPBEA2XG7F6V4GBH4"
 							]
 						}
 					},
@@ -117,7 +117,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"joinXdr\": \"AAAAAgAAAADewGf/DeNmCA6+BSr+Vkyx1RyKg/rl+Fktuk64KnOTgQAAAGQAFfRBAAAAAwAAAAEAAAAAAAAAAAAAAABiLRTJAAAAAAAAAAEAAAABAAAAAN7AZ/8N42YIDr4FKv5WTLHVHIqD+uX4WS26Trgqc5OBAAAAAQAAAAAL7iWpsTwfZC8a96vOQrlMw4oG/Yxgvw3OZXCxhXsEKgAAAAAAAAAAO5rKAAAAAAAAAAABKnOTgQAAAEC8FA2vHJoYORPDjrUYl6+NI0HPFSFMamgvCwmygKOAJXaA8gHeSP+Nwv9PW4fH0w98aKcFtn+DnwX2UBLPpv0D\"\r\n}",
+							"raw": "{\r\n    \"joinXdr\": \"AAAAAgAAAADewGf/DeNmCA6+BSr+Vkyx1RyKg/rl+Fktuk64KnOTgQAAAGQAFfRBAAAABQAAAAEAAAAAAAAAAAAAAABiLR6wAAAAAAAAAAEAAAABAAAAAN7AZ/8N42YIDr4FKv5WTLHVHIqD+uX4WS26Trgqc5OBAAAAAQAAAAAL7iWpsTwfZC8a96vOQrlMw4oG/Yxgvw3OZXCxhXsEKgAAAAAAAAAAO5rKAAAAAAAAAAABKnOTgQAAAEADXXYvc7vAH8EWfoaDnoMKk3GEKNyKjZ/XDhcQMYi/2AH6xAJmib3mCvunPjH9rI2mmOGKW98tieh+uxXbQcAA\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -147,7 +147,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"flag\": \"gmb\"\r\n}",
+							"raw": "{\r\n    \"flag\": \"AUT\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -155,7 +155,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:5000/round/player/GDPMAZ77BXRWMCAOXYCSV7SWJSY5KHEKQP5OL6CZFW5E5OBKOOJYCW7W",
+							"raw": "http://localhost:5000/round/player/GB4E7S276RCHAMTVOTQHDRPSRHBM2KNLWIA3DWZJPBEA2XG7F6V4GBH4",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -164,7 +164,27 @@
 							"path": [
 								"round",
 								"player",
-								"GDPMAZ77BXRWMCAOXYCSV7SWJSY5KHEKQP5OL6CZFW5E5OBKOOJYCW7W"
+								"GB4E7S276RCHAMTVOTQHDRPSRHBM2KNLWIA3DWZJPBEA2XG7F6V4GBH4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get winners",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/player/winners",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"player",
+								"winners"
 							]
 						}
 					},
