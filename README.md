@@ -4,7 +4,7 @@ Stake your XLM, guess the flag before other players and earn XLM and a Flag NFT!
 
 ## Game mechanic
 
-TBD
+The Flag Game allows players to compete with each other in "rounds" of guessing the flag. Each player joins a round by paying an entry price (100 XLM), once the round starts, a flag starts to be revealed pixel by pixel. A player may guess the flag at any time, and if they win, they earn the NFT of the Flag they guessed plus everyone else's entry price! But beware, you have only 1 attempt per round, and if you don't get it right, you lose your XLM!
 
 ## Installation
 
