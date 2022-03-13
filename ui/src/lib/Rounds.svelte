@@ -5,13 +5,20 @@
     import Winners from './Winners.svelte';
     import {getJoinOffer, getPlayer, getRound, joinRound} from "../services/flag-nft.js";
     import {signJoinXdr} from "../services/stellar.js";
+    import socket from "../services/socket.js";
 
     onMount(async function () {
         const roundResponse = await getRound();
         const playerResponse = await getPlayer($player);
         round.set(roundResponse.round);
+
+        player.subscribe((p) => {
+            if (p.status === 'lost') {
+                socket.off('RANDOM_PIXEL');
+            }
+        })
+
         player.set(playerResponse);
-        console.log($player);
     });
 
     const handleJoin = async () => {
@@ -49,7 +56,11 @@
             {#if $player.status === 'joined' || $player.status === 'won'}
                 <PlayGame/>
             {:else}
-                <h1><strong>There's a round currently in progress</strong></h1>
+                {#if $player.status === 'lost'}
+                    <h1><strong>You lost! Wait until the round finishes.</strong></h1>
+                {:else}
+                    <h1><strong>There's a round currently in progress</strong></h1>
+                {/if}
                 <p>Come back later to register for a new round!</p>
                 <Winners/>
             {/if}

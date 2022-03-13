@@ -5,7 +5,6 @@
     let winners = [];
     onMount(async function () {
         const winnersResponse = await getWinners();
-        console.log(winnersResponse);
         winners = winnersResponse;
     });
 </script>

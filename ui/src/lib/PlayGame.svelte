@@ -1,10 +1,10 @@
 <script>
     import {flags} from '../../../shared/flags.js'
     import {onMount} from 'svelte';
-    import {io} from "socket.io-client";
     import {keyPair, player, round} from "../stores/main.js";
     import {submitAnswer} from "../services/flag-nft.js";
     import {submitClaimPrizeXdr} from "../services/stellar.js";
+    import socket from "../services/socket.js";
 
     const cols = 120;
     const rows = 80;
@@ -17,8 +17,10 @@
             const response = await submitAnswer($player, selectedFlag);
             player.set(response.player);
             console.log(response);
-            await submitClaimPrizeXdr(response.prizeXdr, $keyPair);
-            console.log('Prize claimed!');
+            if ($player.status === 'won') {
+                await submitClaimPrizeXdr(response.prizeXdr, $keyPair);
+                console.log('Prize claimed!');
+            }
         } catch (e) {
             console.error(e);
         }
@@ -43,7 +45,6 @@
         }
     };
     onMount(() => {
-        const socket = io(import.meta.env.VITE_SERVER_URL);
         socket.on('RANDOM_PIXEL', (pixel) => {
             paintCell(pixel);
         });

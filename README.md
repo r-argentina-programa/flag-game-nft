@@ -100,4 +100,6 @@ When populating the .env, a single value is required, here is a sample configura
 
 ```
 VITE_SERVER_URL=http://localhost:5000 # by default this is the port the server uses
+VITE_STELLAR_NETWORK=https://horizon-testnet.stellar.org
+VITE_STELLAR_NETWORK_PASSPHRASE=Test SDF Network ; September 2015
 ```
