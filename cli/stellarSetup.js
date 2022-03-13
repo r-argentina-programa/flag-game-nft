@@ -44,13 +44,14 @@ export async function lockAccount(keyPair) {
 
 export async function createFlagNft(gameMasterKeyPair, nftIssuerKeyPair, flag) {
     try {
+        const nftCode = flag.toUpperCase();
         const server = new Server(process.env.STELLAR_NETWORK);
         const gameMasterPublicKey = gameMasterKeyPair.publicKey();
         const gameMasterAccount = await server.loadAccount(gameMasterPublicKey);
         const nftIssuerPublicKey = nftIssuerKeyPair.publicKey();
-        const nftAsset = new Asset(flag, nftIssuerPublicKey);
+        const nftAsset = new Asset(nftCode, nftIssuerPublicKey);
 
-        console.log('creating nft', flag, 'by', nftIssuerPublicKey);
+        console.log('creating nft', nftCode, 'by', nftIssuerPublicKey);
 
         const transaction = new TransactionBuilder(gameMasterAccount, {
             networkPassphrase: process.env.STELLAR_NETWORK_PASSPHRASE,
