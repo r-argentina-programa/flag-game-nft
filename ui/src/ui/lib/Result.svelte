@@ -1,5 +1,5 @@
 <script>
-	import { winner, prize, flagName, flagImage } from '../../../shared/store/store';
+	import { winner, prize, flagName, flagImage } from '../store/store';
 </script>
 
 <div class="w3-container w3-center">
