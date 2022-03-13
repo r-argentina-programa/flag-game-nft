@@ -17,7 +17,7 @@
                 {#each winner.nfts as nft}
                     <div class="flags-nft w3-quarter">
                         <div class="w3-container w3-padding-16 w3-center">
-                            <img src="static/{nft}.svg" width="120" height="80" style="background-color: white"/>
+                            <img src="static/{nft.toLowerCase()}.svg" alt="List of winners" width="120" height="80"/>
                             <div class="w3-clear"/>
                             <p class="flags-nft-pubkey">
                                 <strong>{nft} {winner.publicKey}</strong>
