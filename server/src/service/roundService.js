@@ -129,6 +129,7 @@ export class RoundService {
         const account = await stellarService.getAccount(gameMasterPublicKey);
         const validAssets = account.balances.filter(balance => balance.asset_issuer === nftIssuerPublicKey && Number(balance.balance) > 0);
         const randomAsset = validAssets[Math.floor(Math.random() * validAssets.length)];
+        console.log('Chose', randomAsset.asset_code);
         return randomAsset.asset_code;
     }
 

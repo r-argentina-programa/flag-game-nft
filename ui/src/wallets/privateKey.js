@@ -1,16 +1,18 @@
 import {Keypair} from 'stellar-sdk';
-import {isConnected, player} from '../stores/main';
+import {isConnected, keyPair, player} from '../stores/main';
 
 export default class PrivateKey {
     async logIn(privateKey) {
         try {
-            const publicKey = Keypair.fromSecret(privateKey).publicKey();
-            if (publicKey) {
+            const kp = Keypair.fromSecret(privateKey);
+
+            if (kp) {
                 isConnected.set(true);
                 player.update(p => {
-                    p.publicKey = publicKey;
+                    p.publicKey = kp.publicKey();
                     return p;
                 })
+                keyPair.set(kp);
                 localStorage.setItem('privateKey', privateKey);
             }
         } catch (e) {

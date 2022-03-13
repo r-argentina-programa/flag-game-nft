@@ -27,7 +27,6 @@
 
     function disconnectPlayer() {
         window.localStorage.clear();
-        $isConnected = false;
         location.reload();
     }
 
