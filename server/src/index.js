@@ -1,7 +1,7 @@
 import {config} from "dotenv";
 import express from "express";
 import http from "http";
-import setupIo from "./service/io.js";
+import {setupIo} from "./service/io.js";
 import {setupRoutes} from "./controller/roundController.js";
 
 config();
