@@ -1,5 +1,6 @@
 import {StellarService} from "./stellarService.js";
 import Player from "../entity/player.js";
+import * as socketService from './io.js';
 
 export class RoundService {
     async open(round) {
@@ -10,11 +11,13 @@ export class RoundService {
 
     close(round) {
         round.close();
+        socketService.sendPixelEnd();
         return round;
     }
 
     start(round) {
         round.start();
+        socketService.sendPixelStart(round.flag)
     }
 
     findPlayer(round, playerId) {
