@@ -12,6 +12,8 @@
     "format": "prettier --ignore-path .gitignore --write --plugin-search-dir=. ."
   },
   "devDependencies": {
+    "@esbuild-plugins/node-globals-polyfill": "^0.1.1",
+    "@esbuild-plugins/node-modules-polyfill": "^0.1.4",
     "@sveltejs/adapter-auto": "next",
     "@sveltejs/kit": "next",
     "eslint": "^7.32.0",
@@ -19,10 +21,12 @@
     "eslint-plugin-svelte3": "^3.2.1",
     "prettier": "^2.5.1",
     "prettier-plugin-svelte": "^2.5.0",
+    "rollup-plugin-node-polyfills": "^0.2.1",
     "svelte": "^3.44.0"
   },
   "type": "module",
   "dependencies": {
+    "@sveltejs/vite-plugin-svelte": "^1.0.0-next.39",
     "get-pixels": "^3.3.3",
     "socket.io-client": "^4.4.1",
     "stellar-sdk": "^10.0.1",
