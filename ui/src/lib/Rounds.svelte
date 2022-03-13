@@ -1,11 +1,14 @@
 <script>
-    import {onMount} from "svelte";
-    import {keyPair, player, round} from '../stores/main';
+    import {onMount} from 'svelte';
+    import {isConnected, keyPair, player, round} from '../stores/main';
     import PlayGame from './PlayGame.svelte';
     import Winners from './Winners.svelte';
-    import {getJoinOffer, getPlayer, getRound, joinRound} from "../services/flag-nft.js";
-    import {signJoinXdr} from "../services/stellar.js";
-    import socket from "../services/socket.js";
+    import {getJoinOffer, getPlayer, getRound, joinRound} from '../services/flag-nft.js';
+    import {signJoinXdr} from '../services/stellar.js';
+    import socket from '../services/socket.js';
+    import Spinner from './Spinner.svelte';
+
+    let isLoading = true;
 
     onMount(async function () {
         const roundResponse = await getRound();
@@ -16,59 +19,100 @@
             if (p.status === 'lost') {
                 socket.off('RANDOM_PIXEL');
             }
-        })
+        });
 
         player.set(playerResponse);
+        isLoading = false;
     });
 
+    function disconnectPlayer() {
+        window.localStorage.clear();
+        $isConnected = false;
+        location.reload();
+    }
+
     const handleJoin = async () => {
+        isLoading = true;
         const joinOfferXdr = await getJoinOffer($player);
         const signedJoinOfferXdr = signJoinXdr(joinOfferXdr, $keyPair);
         const updatedPlayer = await joinRound($player, signedJoinOfferXdr);
-        console.log(updatedPlayer)
+        console.log(updatedPlayer);
         player.set(updatedPlayer);
-    }
+        isLoading = false;
+    };
 </script>
 
-<header class="flags-nft-game w3-container" style="padding-top:22px">
-    <div class="flags-nft-game w3-center">
-        <h2>Welcome <a href="https://stellar.expert/explorer/testnet/account/{$player.publicKey}"
-                       target="_blank">{$player.shortPublicKey}</a></h2>
-        {#if !$round.isOpen && !$round.isPlaying}
-            <h1><strong>The round isn't open yet, come back soon!</strong></h1>
-            <Winners/>
-        {:else if $round.isOpen}
-            {#if $player.status === 'joined'}
-                <h1><strong>The next round is now open!</strong></h1>
-                <h2>You have already joined. Wait for the round to start.</h2>
-                <Winners/>
-            {:else}
-                <h1><strong>The next round is now open!</strong></h1>
-                <div class="flags-nft-game container">
-                    <div class="flags-nft-game popup background">
-                        <div class="message">Entry cost: 100 XLM</div>
-                        <button class="flags-nft-game join-btn" on:click="{handleJoin}">Join</button>
-                    </div>
+{#if isLoading }
+    <Spinner/>
+{:else}
+
+    <div class="flags-nft-game w3-container" style="padding-top:22px">
+        <div class="flags-nft-game w3-center">
+            <div class="flags-nft-game header">
+                <button class="flags-nft-game disconnect-btn" on:click={disconnectPlayer}>Disconnect
+                </button
+                >
+                <div class="flags-nft-game title">
+                    <h2>
+                        Welcome <a
+                            href="https://stellar.expert/explorer/testnet/account/{$player.publicKey}"
+                            target="_blank">{$player.shortPublicKey}</a
+                    >
+                    </h2>
                 </div>
+            </div>
+            {#if !$round.isOpen && !$round.isPlaying}
+                <h1><strong>The round isn't open yet, come back soon!</strong></h1>
                 <Winners/>
-            {/if}
-        {:else if $round.isPlaying}
-            {#if $player.status === 'joined' || $player.status === 'won'}
-                <PlayGame/>
-            {:else}
-                {#if $player.status === 'lost'}
-                    <h1><strong>You lost! Wait until the round finishes.</strong></h1>
+            {:else if $round.isOpen}
+                {#if $player.status === 'joined'}
+                    <h1><strong>The next round is now open!</strong></h1>
+                    <h2>You have already joined. Wait for the round to start.</h2>
+                    <Winners/>
                 {:else}
-                    <h1><strong>There's a round currently in progress</strong></h1>
+                    <h1><strong>The next round is now open!</strong></h1>
+                    <div class="flags-nft-game container">
+                        <div class="flags-nft-game popup background">
+                            <div class="flags-nft-game message">Entry cost: 100 XLM</div>
+                            <button class="flags-nft-game join-btn" on:click={handleJoin}>Join</button>
+                        </div>
+                    </div>
+                    <Winners/>
                 {/if}
-                <p>Come back later to register for a new round!</p>
-                <Winners/>
+            {:else if $round.isPlaying}
+                {#if $player.status === 'joined' || $player.status === 'won'}
+                    <PlayGame/>
+                {:else}
+                    {#if $player.status === 'lost'}
+                        <h1><strong>You lost! Wait until the round finishes.</strong></h1>
+                    {:else}
+                        <h1><strong>There's a round currently in progress</strong></h1>
+                    {/if}
+                    <p>Come back later to register for a new round!</p>
+                    <Winners/>
+                {/if}
             {/if}
-        {/if}
+        </div>
     </div>
-</header>
+{/if}
 
 <style>
+    .disconnect-btn {
+        height: 30px;
+    }
+
+    .header {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .title {
+        width: 90%;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+
     .container {
         display: inline-flex;
     }

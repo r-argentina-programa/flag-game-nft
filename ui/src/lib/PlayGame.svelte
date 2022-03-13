@@ -5,6 +5,9 @@
     import {submitAnswer} from "../services/flag-nft.js";
     import {submitClaimPrizeXdr} from "../services/stellar.js";
     import socket from "../services/socket.js";
+    import Spinner from "./Spinner.svelte";
+
+    let isLoading = true;
 
     const cols = 120;
     const rows = 80;
@@ -14,6 +17,7 @@
 
     const handleSubmit = async () => {
         try {
+            isLoading = true
             const response = await submitAnswer($player, selectedFlag);
             player.set(response.player);
             console.log(response);
@@ -23,6 +27,8 @@
             }
         } catch (e) {
             console.error(e);
+        } finally {
+            isLoading = false;
         }
     }
 
@@ -43,6 +49,8 @@
         for (let i = 0; i < $round.pixels.length; i++) {
             paintCell($round.pixels[i]);
         }
+
+        isLoading = false;
     };
     onMount(() => {
         socket.on('RANDOM_PIXEL', (pixel) => {
@@ -54,6 +62,9 @@
 
 </script>
 
+{#if isLoading}
+    <Spinner />
+{/if}
 <main
         class="w3-container  w3-center"
         style="height: 100vh; max-height: 1152px; border: 1px solid blue; display: flex; flex-direction: column;"

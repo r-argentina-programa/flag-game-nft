@@ -30,6 +30,7 @@
     "get-pixels": "^3.3.3",
     "socket.io-client": "^4.4.1",
     "stellar-sdk": "^10.0.1",
+    "svelte-loading-spinners": "^0.1.7",
     "svelte-preprocess": "^4.10.4"
   }
 }
