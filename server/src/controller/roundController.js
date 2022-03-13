@@ -100,6 +100,13 @@ export function setupRoutes(app) {
     });
 
     app.get('/player/:playerId', async (req, res) => {
-        // return player + nfts
+        try {
+            const player = await roundService.getPlayer(req.params.playerId);
+            res.send({player});
+        } catch (e) {
+            console.error(e);
+            res.send({error: e.message})
+        }
+
     });
 }

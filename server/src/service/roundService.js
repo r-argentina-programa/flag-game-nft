@@ -40,8 +40,15 @@ export class RoundService {
     }
 
     findPlayer(round, playerId) {
-        console.log(round.players);
         return round.players.find(p => p.publicKey === playerId);
+    }
+
+    async getPlayer(playerId) {
+        const nftIssuerPublicKey = process.env.NFT_ISSUER_PUBLIC_KEY;
+        const stellarService = new StellarService();
+        const account = await stellarService.getAccount(playerId);
+        const NFTs = account.balances.filter(balance => balance.asset_issuer === nftIssuerPublicKey && Number(balance.balance) > 0).map(balance => balance.asset_code);
+        return new Player(playerId, null, NFTs);
     }
 
     async getJoinOffer(round, playerId) {

@@ -83,12 +83,7 @@
 						}
 					},
 					"response": []
-				}
-			]
-		},
-		{
-			"name": "Player",
-			"item": [
+				},
 				{
 					"name": "GET player in round",
 					"request": {
@@ -139,30 +134,25 @@
 						}
 					},
 					"response": []
-				},
+				}
+			]
+		},
+		{
+			"name": "Player",
+			"item": [
 				{
-					"name": "Submit answer",
+					"name": "GET player",
 					"request": {
-						"method": "POST",
+						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"flag\": \"AUT\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
-							"raw": "http://localhost:5000/round/player/GB4E7S276RCHAMTVOTQHDRPSRHBM2KNLWIA3DWZJPBEA2XG7F6V4GBH4",
+							"raw": "http://localhost:5000/player/GB4E7S276RCHAMTVOTQHDRPSRHBM2KNLWIA3DWZJPBEA2XG7F6V4GBH4",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "5000",
 							"path": [
-								"round",
 								"player",
 								"GB4E7S276RCHAMTVOTQHDRPSRHBM2KNLWIA3DWZJPBEA2XG7F6V4GBH4"
 							]
@@ -185,6 +175,36 @@
 							"path": [
 								"player",
 								"winners"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Submit answer",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"flag\": \"AUS\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/round/player/GB4E7S276RCHAMTVOTQHDRPSRHBM2KNLWIA3DWZJPBEA2XG7F6V4GBH4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"round",
+								"player",
+								"GB4E7S276RCHAMTVOTQHDRPSRHBM2KNLWIA3DWZJPBEA2XG7F6V4GBH4"
 							]
 						}
 					},
