@@ -14,7 +14,7 @@ export class StellarService {
             networkPassphrase: process.env.STELLAR_NETWORK_PASSPHRASE, fee: BASE_FEE
         }).addOperation(Operation.payment({
             source: playerPublicKey, amount: "100", destination: gameMasterPublicKey, asset: Asset.native()
-        })).setTimeout(300).build();
+        })).setTimeout(3600).build();
 
     }
 
@@ -66,5 +66,10 @@ export class StellarService {
             console.error(e.response.data.extras);
             throw e;
         }
+    }
+
+    async getPaymentsForAccount(publicKey) {
+        const server = new Server(process.env.STELLAR_NETWORK);
+        return server.payments().forAccount(publicKey).limit(200).call();
     }
 }

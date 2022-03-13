@@ -3,11 +3,13 @@ import express from "express";
 import http from "http";
 import {setupIo} from "./service/io.js";
 import {setupRoutes} from "./controller/roundController.js";
+import cors from 'cors';
 
 config();
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 setupRoutes(app);
 

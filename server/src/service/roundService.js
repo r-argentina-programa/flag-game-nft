@@ -70,6 +70,28 @@ export class RoundService {
         return stellarService.getPayWinnerTransaction(round, winner);
     }
 
+    async findWinners() {
+        const gameMasterPublicKey = process.env.GAME_MASTER_PUBLIC_KEY;
+        const nftIssuerPublicKey = process.env.NFT_ISSUER_PUBLIC_KEY;
+        const stellarService = new StellarService();
+        const payments = await stellarService.getPaymentsForAccount(gameMasterPublicKey);
+        const paymentsToWinners = payments.records.filter(payment =>
+            payment.type === 'payment' && payment.from === gameMasterPublicKey && payment.asset_issuer === nftIssuerPublicKey
+        );
+        const winners = paymentsToWinners.reduce((winners, payment) => {
+            if (winners[payment.to]) {
+                winners[payment.to].nfts.push(payment.asset_code);
+            }
+            {
+                winners[payment.to] = new Player(payment.to, Player.STATUSES.UNKNOWN, [payment.asset_code]);
+            }
+
+            return winners;
+        }, {});
+
+        return Object.values(winners);
+    }
+
     async getRandomFlag() {
         const gameMasterPublicKey = process.env.GAME_MASTER_PUBLIC_KEY;
         const nftIssuerPublicKey = process.env.NFT_ISSUER_PUBLIC_KEY;

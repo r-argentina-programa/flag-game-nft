@@ -8,6 +8,8 @@ const round = new Round(120 * 80, 100);
 function getSanitizedRound() {
     const roundClone = {...round};
     delete roundClone.flag;
+    delete roundClone.losers;
+    delete roundClone.players;
     return roundClone;
 }
 
@@ -92,5 +94,19 @@ export function setupRoutes(app) {
             console.error(e);
             res.send({error: e.message})
         }
+    });
+
+    app.get('/player/winners', async (req, res) => {
+        try {
+            const players = await roundService.findWinners();
+            res.send(players);
+        } catch (e) {
+            console.error(e);
+            res.send({error: e.message})
+        }
+    });
+
+    app.get('/player/:playerId', async (req, res) => {
+        // return player + nfts
     });
 }

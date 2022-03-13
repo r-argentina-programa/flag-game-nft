@@ -3,14 +3,23 @@ export default class Player {
         JOINED: 'joined',
         PLAYING: 'playing',
         WON: 'won',
-        LOST: 'lost'
+        LOST: 'lost',
+        UNKNOWN: 'unknown'
     };
 
     publicKey;
     status = 'not_joined';
+    nfts = [];
 
-    constructor(publicKey) {
+    constructor(publicKey, status, nfts) {
         this.publicKey = publicKey;
+        if (status) {
+            this.status = status;
+        }
+
+        if(nfts){
+            this.nfts = nfts;
+        }
     }
 
     join() {

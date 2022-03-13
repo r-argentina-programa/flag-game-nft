@@ -1,5 +1,5 @@
 <script>
-	import { userNFTs } from '../../../shared/store/store';
+	import { userNFTs } from '../stores/main.js';
 </script>
 
 <div class="w3-container w3-center">
