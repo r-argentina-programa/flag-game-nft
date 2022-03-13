@@ -6,6 +6,7 @@ export default class Round {
     entryCostInXlm;
     isOpen = false;
     isPlaying = false;
+    isClosed = false;
     flag = null;
     players = [];
     pixels = [];
@@ -33,11 +34,13 @@ export default class Round {
         this.flag = flag;
         this.isOpen = true;
         this.isPlaying = false;
+        this.isClosed = false;
     }
 
     start() {
         this.isPlaying = true;
         this.isOpen = false;
+        this.isClosed = false;
     }
 
     close() {
@@ -45,6 +48,7 @@ export default class Round {
         this.flag = null;
         this.isOpen = false;
         this.isPlaying = false;
+        this.isClosed = true;
     }
 
     addPlayer(player) {
@@ -53,7 +57,6 @@ export default class Round {
     }
 
     evaluatePlayerAnswer(player, flag) {
-
         if (this.losers.find(p => p.publicKey === player.publicKey)) {
             throw new Error(`Player ${player.publicKey} already lost`);
         }
@@ -69,8 +72,9 @@ export default class Round {
     }
 
     declareWinner(player) {
-        this.isPlaying = false;
+        this.isPlaying = true;
         this.isOpen = false;
+        this.isClosed = false;
         this.winner = player;
         const playerIndex = this.players.findIndex(p => p.publicKey === this.winner.publicKey);
         this.losers = this.players;

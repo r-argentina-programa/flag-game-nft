@@ -2,7 +2,9 @@
     import {flags} from '../../../shared/flags.js'
     import {onMount} from 'svelte';
     import {io} from "socket.io-client";
-    import {round} from "../stores/main.js";
+    import {keyPair, player, round} from "../stores/main.js";
+    import {submitAnswer} from "../services/flag-nft.js";
+    import {submitClaimPrizeXdr} from "../services/stellar.js";
 
     const cols = 120;
     const rows = 80;
@@ -10,12 +12,20 @@
     let flagContainer;
     let selectedFlag;
 
-    const handleSubmit = () => {
-        console.log(selectedFlag);
+    const handleSubmit = async () => {
+        try {
+            const response = await submitAnswer($player, selectedFlag);
+            player.set(response.player);
+            console.log(response);
+            await submitClaimPrizeXdr(response.prizeXdr, $keyPair);
+            console.log('Prize claimed!');
+        } catch (e) {
+            console.error(e);
+        }
     }
 
     const calculateIndex = (x, y) => {
-        return (cols * (y)) + (x+1);
+        return (cols * (y)) + (x + 1);
     }
 
     const paintCell = ({x, y, color}) => {
@@ -48,8 +58,14 @@
         style="height: 100vh; max-height: 1152px; border: 1px solid blue; display: flex; flex-direction: column;"
 >
     <div style="padding: 1.25em; flex: 1 1 25%">
-        <h1>Guess the flag!</h1>
-        <p>The faster you do it, the more XLM you will earn, but if you fail, you are out!</p>
+        {#if $player.status === 'won'}
+            <h1>You won!</h1>
+        {:else if $player.status === 'lost'}
+            <h1>You lost!</h1>
+        {:else}
+            <h1>Guess the flag!</h1>
+            <p>The faster you do it, the more XLM you will earn, but if you fail, you will lose your 100 XLM!</p>
+        {/if}
     </div>
 
     <div
@@ -63,7 +79,7 @@
             <form>
                 <div style="width: max-content; margin: auto">
                     <div class="w3-container w3-cell">
-                        <select class="w3-select" name="flag" bind:value="{selectedFlag}">
+                        <select bind:value="{selectedFlag}" class="w3-select" name="flag">
                             <option disabled selected value="">Select one!</option>
                             {#each flags as flag}
                                 <option value="{flag}">{flag}</option>
@@ -72,7 +88,7 @@
                     </div>
 
                     <div class="w3-container w3-cell">
-                        <button class="w3-button w3-teal" type="button" on:click="{handleSubmit}">Submit!</button>
+                        <button class="w3-button w3-teal" on:click="{handleSubmit}" type="button">Submit!</button>
                     </div>
                 </div>
             </form>

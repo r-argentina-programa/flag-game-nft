@@ -1,7 +1,6 @@
 export default class Player {
     static STATUSES = {
         JOINED: 'joined',
-        PLAYING: 'playing',
         WON: 'won',
         LOST: 'lost',
         UNKNOWN: 'unknown'
@@ -24,10 +23,6 @@ export default class Player {
 
     join() {
         this.status = Player.STATUSES.JOINED;
-    }
-
-    play() {
-        this.status = Player.STATUSES.PLAYING;
     }
 
     win() {

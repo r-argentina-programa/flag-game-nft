@@ -35,7 +35,6 @@ export async function getJoinOffer(player) {
 }
 
 export async function joinRound(player, signedXdr) {
-    console.log(signedXdr);
     const result = await fetch(`${BASE_URL}/round/player/${player.publicKey}`, {
         method: 'PUT',
         headers: {
@@ -48,6 +47,24 @@ export async function joinRound(player, signedXdr) {
     });
 
     const playerData = await result.json();
-    console.log(playerData);
     return new Player(playerData);
+}
+
+export async function submitAnswer(player, flag) {
+    const result = await fetch(`${BASE_URL}/round/player/${player.publicKey}`, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            flag
+        })
+    });
+
+    const response = await result.json();
+    return {
+        player: new Player(response.player),
+        prizeXdr: response.prizeXdr
+    };
 }

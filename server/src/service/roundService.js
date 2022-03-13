@@ -40,7 +40,8 @@ export class RoundService {
     }
 
     findPlayer(round, playerId) {
-        return round.players.find(p => p.publicKey = playerId);
+        console.log(round.players);
+        return round.players.find(p => p.publicKey === playerId);
     }
 
     async getJoinOffer(round, playerId) {
@@ -79,7 +80,11 @@ export class RoundService {
             throw new Error(`Player ${playerId} is not playing`);
         }
 
-        round.evaluatePlayerAnswer(player, flag);
+        const isCorrectAnswer = round.evaluatePlayerAnswer(player, flag);
+
+        if (isCorrectAnswer) {
+            clearInterval(this.intervalId);
+        }
 
         return player;
     }
@@ -100,8 +105,7 @@ export class RoundService {
         const winners = paymentsToWinners.reduce((winners, payment) => {
             if (winners[payment.to]) {
                 winners[payment.to].nfts.push(payment.asset_code);
-            }
-            {
+            } else {
                 winners[payment.to] = new Player(payment.to, Player.STATUSES.UNKNOWN, [payment.asset_code]);
             }
 
@@ -116,7 +120,7 @@ export class RoundService {
         const nftIssuerPublicKey = process.env.NFT_ISSUER_PUBLIC_KEY;
         const stellarService = new StellarService();
         const account = await stellarService.getAccount(gameMasterPublicKey);
-        const validAssets = account.balances.filter(balance => balance.asset_issuer === nftIssuerPublicKey);
+        const validAssets = account.balances.filter(balance => balance.asset_issuer === nftIssuerPublicKey && Number(balance.balance) > 0);
         const randomAsset = validAssets[Math.floor(Math.random() * validAssets.length)];
         return randomAsset.asset_code;
     }

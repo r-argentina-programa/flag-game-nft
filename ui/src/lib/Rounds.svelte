@@ -11,6 +11,7 @@
         const playerResponse = await getPlayer($player);
         round.set(roundResponse.round);
         player.set(playerResponse);
+        console.log($player);
     });
 
     const handleJoin = async () => {
@@ -45,7 +46,7 @@
                 <Winners/>
             {/if}
         {:else if $round.isPlaying}
-            {#if $player.status = 'playing'}
+            {#if $player.status === 'joined' || $player.status === 'won'}
                 <PlayGame/>
             {:else}
                 <h1><strong>There's a round currently in progress</strong></h1>
